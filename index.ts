@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import * as dotenv from 'dotenv';
 import axios from 'axios';
+import smaInc from './src/indicators/index';
 dotenv.config();
 
 import { KLine } from './src/interfaces';
@@ -23,13 +24,15 @@ app.get('/:symbol/:interval', async (req: Request, res: Response) => {
         const { symbol, interval } = req.params
         const { data } = await axios.get(`https://api.binance.com/api/v3/klines?symbol=${ symbol }&interval=${ interval }`)
 
-        const klines = data.map( (d: KLine) => ({
+        let klines = data.map( (d: KLine) => ({
             time: d[0] / 1000,
             open: Number(d[1]),
             high: Number(d[2]),
             low: Number(d[3]),
             close: Number(d[4]),
         }))
+
+        klines = await smaInc(klines);
         
         res.status(200).json(klines)
 

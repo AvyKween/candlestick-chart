@@ -16,7 +16,15 @@ const renderChart = async() => {
 
     const chart = LightweightCharts.createChart(domElement, chartProperties)
     const candleseries = chart.addCandlestickSeries();
-    const klinedata = await getData();
-    candleseries.setData(klinedata);
+    const klines = await getData();
+    candleseries.setData(klines);
+
+    // SMA Indicator
+    const smaSeries = chart.addLineSeries({ color: 'red', lineWidth: 1 })
+    const smaData = klines
+        .filter(d => d.sma)
+        .map(d => ({ time: d.time, value: d.sma }))
+
+    smaSeries.setData(smaData)
 }
 renderChart();
