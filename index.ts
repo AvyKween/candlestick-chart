@@ -17,14 +17,6 @@ const server = app.listen(process.env.PORT, () => {
 app.use( cors() );
 app.use( express.static('public') );
 
-
-// Routes
-app.get('/scripts/tv.js', (_req: Request, res: Response) => {
-        res.status(200).sendFile('/dist/scripts/tv.js', { root: './' })
-})
-app.get('/scripts/index.js', (_req: Request, res: Response) => {
-        res.status(200).sendFile('/dist/scripts/index.js', { root: './' })
-})
 app.get('/:symbol/:interval', async (req: Request, res: Response) => {
 
     try {
