@@ -34,5 +34,29 @@ const renderChart = async() => {
         .map(d => ({ time: d.time, value: d.ema }))
     emaSeries.setData(emaData)
 
+    
+    // MARKERS
+    candleseries.setMarkers(
+        klines
+            .filter(d => d.long || d.short)
+            .map(d => 
+                d.long 
+                    ? {
+                        time: d.time,
+                        position: 'belowBar',
+                        color: 'green',
+                        shape: 'arrowUp',
+                        text: 'Long'
+                    }
+                    : {
+                        time: d.time,
+                        position: 'aboveBar',
+                        color: 'red',
+                        shape: 'arrowDown',
+                        text: 'Short'
+                    }
+            )
+    )
+
 }
 renderChart();
