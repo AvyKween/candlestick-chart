@@ -24,7 +24,15 @@ const renderChart = async() => {
     const smaData = klines
         .filter(d => d.sma)
         .map(d => ({ time: d.time, value: d.sma }))
-
     smaSeries.setData(smaData)
+    
+
+    // EMA Indicator
+    const emaSeries = chart.addLineSeries({ color: 'cyan', lineWidth: 1 })
+    const emaData = klines
+        .filter(d => d.ema)
+        .map(d => ({ time: d.time, value: d.ema }))
+    emaSeries.setData(emaData)
+
 }
 renderChart();

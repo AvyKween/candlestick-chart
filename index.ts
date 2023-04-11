@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import * as dotenv from 'dotenv';
 import axios from 'axios';
-import smaInc from './src/indicators/index';
+import { smaInc, emaInc } from './src/indicators/index';
 dotenv.config();
 
 import { KLine } from './src/interfaces';
@@ -33,6 +33,7 @@ app.get('/:symbol/:interval', async (req: Request, res: Response) => {
         }))
 
         klines = await smaInc(klines);
+        klines = await emaInc(klines);
         
         res.status(200).json(klines)
 
